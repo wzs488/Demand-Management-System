@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}TDL{% endblock %}
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        td {
+            padding: 6px 12px;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <div class="container">
+        {% for msg in get_flashed_messages() %}
+            <div class="alert alert-warning">
+                <button type="button" class="close" onclick="closeMsg()">&times;</button>
+                {{ msg }}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="page-header">
+        <h1 style="margin-left: 15px;">To Do List</h1>
+    </div>
+    <div style="margin-left: 15px;">
+        <form action="/" method="post">
+            <input id="csrf_token" name="csrf_token" type="hidden"
+                   value="1483865393##ab936c1689a522168edb31e291efbe8482b76eb7">
+            <div class="form-group">
+                {% if todos %}
+                    <input class="form-control" id="search_tag" style="width: 33%; display: inline;" name="search_tag"
+                           type="text" value="{{ search_tag }}">
+                    <input class="btn btn-default" id="submit" name="submit" type="submit" value="search">
+                {% endif %}
+                <input class="btn btn-default" value="add" type="button"
+                       onclick="window.location.href='{{ url_for('main.add_or_edit', todo_id=0) }}'">
+                <input class="btn btn-default" type="button"
+                       onclick="window.location.href='{{ url_for('main.logout') }}'" value="logout">
+                <input class="btn btn-default" type="button"
+                       onclick="window.location.href='{{ url_for('main.ch_info') }}'" value="edit info">
+            </div>
+        </form>
+        {% if not todos %}
+            <h3>Nothing Todo !</h3>
+        {% else %}
+            <table style="border-spacing: 1px; border-collapse: inherit; margin-bottom: 15px;">
+            <tr bgcolor="#6495ed">
+                <td>id</td>
+                <td>Create time</td>
+                <td>Modify date</td>
+                <td>TODO context</td>
+                <td>Done</td>
+                <td>Modify State</td>
+                <td>Modify context</td>
+                <td>delete</td>
+            </tr>
+            {% for todo in todos %}
+                {% if todo.is_done %}
+                    <tr bgcolor="#adff2f">
+                        {% else %}
+                    <tr bgcolor="red">
+                {% endif %}
+            <td>{{ loop.index }}</td>
+            <td>{{ todo.created_time.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            <td>{{ todo.updated_time.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            <td>{{ todo.content }}</td>
+            {% if todo.is_done %}
+                <td>done</td>
+                <td><input style="border: 0" value="todo" type="submit" onclick="chStatus({{ todo.id }})"></td>
+            {% else %}
+                <td>todo</td>
+                <td><input style="border: 0" value="done" type="submit" onclick="chStatus({{ todo.id }})"></td>
+            {% endif %}
+            <td><input style="border: 0;" type="submit" value="modify"
+                       onclick="window.location.href='{{ url_for('main.add_or_edit', todo_id=todo.id) }}'"></td>
+            <td><input style="border: 0" value="delete" type="submit" onclick="delTodo({{ todo.id }})"></td>
+            </tr>
+            {% endfor %}
+        {% endif %}
+        </table>
+    </div>
+    {% if current_user.is_administrator %}
+        <div class="col-md-4">
+            <input class="btn btn-default" type="button" value="add user"
+                   onclick="window.location.href='{{ url_for('main.add_user') }}'">
+            <input class="btn btn-default" type="button" value="delete user"
+                   onclick="window.location.href='{{ url_for('main.all_users') }}'">
+        </div>
+    {% endif %}
+{% endblock %}
+</html>

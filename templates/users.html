@@ -1,0 +1,75 @@
+{% import "chwtf.html" as wtf %}
+{% extends "base.html" %}
+{% block title %}user list{% endblock %}
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        td {
+            padding: 6px 12px;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <div class="container">
+        {% for msg in get_flashed_messages() %}
+            <div class="alert alert-warning">
+                <button type="button" class="close" onclick="closeMsg()">&times;</button>
+                {{ msg }}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="page-header">
+        <h1 style="margin-left: 15px;">all user</h1>
+    </div>
+    <div style="margin-left: 15px;">
+        <table style="border-spacing: 1px; border-collapse: inherit; margin-bottom: 15px;">
+            <tr bgcolor="#6495ed">
+                <td>ID</td>
+                <td>username</td>
+                <td>create date</td>
+                <td>admin</td>
+                <td>permission</td>
+                <td>state</td>
+            </tr>
+            {% for user in users %}
+                {% if user.id == 1 %}
+                    <tr bgcolor="#ffd700">
+                        {% elif user.is_administrator %}
+                    <tr bgcolor="#adff2f">
+                        {% else %}
+                    <tr bgcolor="#ff7f50">
+                {% endif %}
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.added_time.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            {% if user.is_administrator %}
+                <td><p align="center" style="margin: 0;">YES</p></td>
+                <td>
+                    {% if user.id == 1 %}
+                        <p align="center" style="margin: 0;">superadmin</p>
+                    {% else %}
+                        <input style="border: 0" value="not admin anymore" type="submit" onclick="chPerm({{ user.id }})">
+                    {% endif %}
+                </td>
+            {% else %}
+                <td><p align="center" style="margin: 0;">NO</p></td>
+                <td><input style="border: 0" value="set as admin" type="submit" onclick="chPerm({{ user.id }})"></td>
+            {% endif %}
+            <td>
+                {% if user.id == 1 %}
+                    <p style="margin: 0;">Connot be delete</p>
+                {% elif user.is_deleted %}
+                    <input style="border: 0" value="recover" type="submit" onclick="delResetUser({{ user.id }})">
+                {% else %}
+                    <input style="border: 0" value="delete" type="submit" onclick="delResetUser({{ user.id }})">
+                {% endif %}
+            </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="col-md-4">
+        <input class="btn btn-default" type="button" value="back"
+               onclick="window.location.href='{{ url_for('main.index') }}'">
+    </div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% import "chwtf.html" as wtf %}
+{% extends "base.html" %}
+{% block title %}
+    {% if is_edit %}
+        edit context
+    {% else %}
+        add ToDo
+    {% endif %}
+{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block body %}
+    <div class="container">
+        {% for msg in get_flashed_messages() %}
+            <div class="alert alert-warning">
+                <button type="button" class="close" onclick="closeMsg()">&times;</button>
+                {{ msg }}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="page-header">
+        {% if is_edit %}
+            <h1 style="margin-left: 15px;">edit context</h1>
+        {% else %}
+            <h1 style="margin-left: 15px;">add ToDo </h1>
+        {% endif %}
+    </div>
+    <div class="col-md-4">
+        {{ wtf.quick_form(form) }}
+    </div>
+{% endblock %}
