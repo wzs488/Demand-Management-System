@@ -32,10 +32,10 @@ The architecture of the whole project is that the user accesses the http URL thr
 - sqlalchemy
 
 
-#### run
+#### Run Command
 
-use cmd: python3 run_tdl.py
-***
+python3 run_tdl.py
+
 
 #### Function Display
 
