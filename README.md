@@ -11,7 +11,7 @@ Demand Management System is a remote demand management system developed using th
 
 
 The system was first developed, built, and tested in a local environment, using MySQL to store the data and Hash function to encrypt some sensitive information to ensure data security. After successful local testing, we uploaded the whole system and data to Google Cloud, achieving the advantages of virtualization, high reliability, versatility, and high scalability.
-![](static/image/2022-04-09 18.33.47.png)
+![](static/image/2.png)
 
 
 #### Architecture
@@ -40,22 +40,22 @@ use cmd: python3 run_tdl.py
 #### Function Display
 
 1. Register, log in, update, and delete of users
-![](static/image/截屏2022-04-09 18.53.33.png)
+![](static/image/5.png)
 
 2. Create, update, and delete of transactions
-![](static/image/截屏2022-04-09 18.54.05.png)
+![](static/image/6.png)
 
 3. Storage of user password data and encryption methods
-![](static/image/截屏2022-04-09 18.43.15.png)
+![](static/image/4.png)
 
 4. Securing the database with role-based policies
 ![](static/image/123.png)
 
 5. Account-based access management
-![](static/image/截屏2022-04-09 18.43.09.png)
+![](static/image/3.png)
 
 6. **External REST services**
-![](static/image/2022-04-09 18.33.19.png)
+![](static/image/1.png)
 
 
 
