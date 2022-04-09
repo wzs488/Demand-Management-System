@@ -17,40 +17,50 @@
             </div>
         {% endfor %}
     </div>
-    <div class="page-header">
+    <div class="page-header" style="text-align:center;">
         <h1 style="margin-left: 15px;">To Do List</h1>
     </div>
-    <div style="margin-left: 15px;">
+    <div style="text-align:center;">
         <form action="/" method="post">
-            <input id="csrf_token" name="csrf_token" type="hidden"
-                   value="1483865393##ab936c1689a522168edb31e291efbe8482b76eb7">
-            <div class="form-group">
-                {% if todos %}
-                    <input class="form-control" id="search_tag" style="width: 33%; display: inline;" name="search_tag"
-                           type="text" value="{{ search_tag }}">
-                    <input class="btn btn-default" id="submit" name="submit" type="submit" value="search">
-                {% endif %}
-                <input class="btn btn-default" value="add" type="button"
-                       onclick="window.location.href='{{ url_for('main.add_or_edit', todo_id=0) }}'">
-                <input class="btn btn-default" type="button"
-                       onclick="window.location.href='{{ url_for('main.logout') }}'" value="logout">
-                <input class="btn btn-default" type="button"
-                       onclick="window.location.href='{{ url_for('main.ch_info') }}'" value="edit info">
+            <div style="text-align:center;">
+                <input id="csrf_token" name="csrf_token" type="hidden"
+                       value="1483865393##ab936c1689a522168edb31e291efbe8482b76eb7">
+                <div class="form-group">
+                    {% if todos %}
+                        <input class="form-control" id="search_tag" style="width: 33%; display: inline;"
+                               name="search_tag"
+                               type="text" value="{{ search_tag }}">
+                        <input class="btn btn-default" id="submit" name="submit" type="submit" value="search">
+                    {% endif %}
+                    <input class="btn btn-default" value="add" type="button"
+                           onclick="window.location.href='{{ url_for('main.add_or_edit', todo_id=0) }}'">
+
+                    <input class="btn btn-default" type="button"
+                           onclick="window.location.href='{{ url_for('main.logout') }}'" value="logout"
+                           align="right">
+                    <input class="btn btn-default" type="button"
+                           onclick="window.location.href='{{ url_for('main.ch_info') }}'" value="edit info"
+                           align="right">
+
+                </div>
+
             </div>
+
         </form>
         {% if not todos %}
             <h3>Nothing Todo !</h3>
         {% else %}
-            <table style="border-spacing: 1px; border-collapse: inherit; margin-bottom: 15px;">
+            <table style="border-spacing: 1px; border-collapse: inherit; margin-bottom: 15px;text-align:center;"
+                   align="center">
             <tr bgcolor="#6495ed">
-                <td>id</td>
-                <td>Create time</td>
-                <td>Modify date</td>
-                <td>TODO context</td>
-                <td>Done</td>
-                <td>Modify State</td>
-                <td>Modify context</td>
-                <td>delete</td>
+                <td>ID</td>
+                <td>Create Time</td>
+                <td>Update Time</td>
+                <td>Requirement Doc</td>
+                <td>State</td>
+                <td>Update State</td>
+                <td>Update Doc</td>
+                <td>Delete</td>
             </tr>
             {% for todo in todos %}
                 {% if todo.is_done %}
@@ -59,31 +69,37 @@
                     <tr bgcolor="red">
                 {% endif %}
             <td>{{ loop.index }}</td>
-            <td>{{ todo.created_time.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-            <td>{{ todo.updated_time.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            <td>{{ todo.created_time.strftime('%Y-%m-%d') }}</td>
+            <td>{{ todo.updated_time.strftime('%Y-%m-%d') }}</td>
             <td>{{ todo.content }}</td>
             {% if todo.is_done %}
-                <td>done</td>
-                <td><input style="border: 0" value="todo" type="submit" onclick="chStatus({{ todo.id }})"></td>
+                <td>completed</td>
+                <td><input style="border: 0" value="processing" type="submit" onclick="chStatus({{ todo.id }})"></td>
             {% else %}
-                <td>todo</td>
-                <td><input style="border: 0" value="done" type="submit" onclick="chStatus({{ todo.id }})"></td>
+                <td>processing</td>
+                <td><input style="border: 0" value="completed" type="submit" onclick="chStatus({{ todo.id }})"></td>
             {% endif %}
-            <td><input style="border: 0;" type="submit" value="modify"
+            <td><input style="border: 0;" type="submit" value="update"
                        onclick="window.location.href='{{ url_for('main.add_or_edit', todo_id=todo.id) }}'"></td>
             <td><input style="border: 0" value="delete" type="submit" onclick="delTodo({{ todo.id }})"></td>
             </tr>
             {% endfor %}
         {% endif %}
         </table>
+
     </div>
-    {% if current_user.is_administrator %}
+
+    <div align="right">
+        {% if current_user.is_administrator %}
         <div class="col-md-4">
             <input class="btn btn-default" type="button" value="add user"
-                   onclick="window.location.href='{{ url_for('main.add_user') }}'">
-            <input class="btn btn-default" type="button" value="delete user"
-                   onclick="window.location.href='{{ url_for('main.all_users') }}'">
+                   onclick="window.location.href='{{ url_for('main.add_user') }}'" align="right">
+            <input class="btn btn-default" type="button" value="update user"
+                   onclick="window.location.href='{{ url_for('main.all_users') }}'" align="right">
         </div>
     {% endif %}
+    </div>
+
+
 {% endblock %}
 </html>

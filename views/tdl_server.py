@@ -44,11 +44,13 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = Users.query.filter_by(username=form.username.data, is_deleted=False).first()
+        if user is not None:
+            print(user.is_deleted)
         if user and user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
-            flash('登录成功')
+            flash('login success')
             return redirect(request.args.get('next', '/') if request.args.get('next') != '/logout' else '/')
-        flash('登录失败')
+        flash('login fail')
     return render_template('login.html', form=form)
 
 
@@ -56,7 +58,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash('已退出')
+    flash('logout')
     return redirect(url_for('main.index'))
 
 
@@ -67,7 +69,7 @@ def ch_info():
     if form.validate_on_submit():
         current_user.username = form.username.data
         current_user.password = form.password.data
-        flash('密码修改成功')
+        flash('Password change successful')
         return redirect(url_for('main.index'))
     return render_template('chinfo.html', form=form)
 
@@ -107,7 +109,7 @@ def add_user():
                      password=form.password.data,
                      is_administrator=form.is_administrator.data)
         db.session.add(user)
-        flash('添加成功')
+        flash('Added successfully')
         return redirect(url_for('main.index'))
     return render_template('adduser.html', form=form)
 

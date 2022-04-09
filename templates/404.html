@@ -9,22 +9,11 @@
     </script>
 {% endblock %}
 {% block body %}
-    <div class="page-header">
+    <div class="page-header" align="center">
         <h1 style="margin-left: 15px;">Not Found</h1>
     </div>
+    <center>
+        <img src="https://http.cat/404.jpg" align="center">
+    </center>
 
-
-    <script type="text/javascript">
-    (async () => {
-    const res = await fetch('https://animechan.vercel.app/api/random');
-    const json = await res.json();
-    document.getElementById('quote1').innerHTML=json['anime'];
-    document.getElementById('quote2').innerHTML=json['character'];
-    document.getElementById('quote3').innerHTML=json['quote'];
-    console.log(json);
-    })();
-    </script>
-    <p id="quote1">group33</p>
-    <p id="quote2">group33</p>
-    <p id="quote3">group33</p>
 {% endblock %}

@@ -1,3 +1,4 @@
+
 from flask_wtf import FlaskForm
 from wtforms import PasswordField, SubmitField, StringField, BooleanField, ValidationError, TextAreaField
 from wtforms.validators import DataRequired, Length, EqualTo, Regexp
@@ -29,49 +30,49 @@ class CancelField(BooleanField):
 
 
 class LoginForm(FlaskForm):
-    username = StringField('用户名', validators=[DataRequired(message='用户名不能为空'), Length(1, 64)])
-    password = PasswordField('密码', validators=[DataRequired(message='请输入密码')])
-    remember_me = BooleanField('记住我')
-    submit = SubmitField('登录')
+    username = StringField('username', validators=[DataRequired(message='username required'), Length(1, 64)])
+    password = PasswordField('password', validators=[DataRequired(message='password required')])
+    remember_me = BooleanField('remember me')
+    submit = SubmitField('login')
 
     def validate_username(self, field):
         if not Users.query.filter_by(username=field.data).first():
-            raise ValidationError('用户名不存在')
+            raise ValidationError('username incorrect')
 
 
 class AddUserForm(FlaskForm):
-    username = StringField('用户名', validators=[
-        DataRequired(message='用户名不能为空'), Length(1, 64), Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0, '用户名只能由字母，数字，小数点和下划线组成')])
-    password = PasswordField('密码', validators=[DataRequired(message='密码不能为空'), EqualTo('password2', message='密码不一致')])
-    password2 = PasswordField('确认密码', validators=[DataRequired()])
-    is_administrator = BooleanField('是否设为管理员')
-    submit = SubmitField('添加')
-    cancel = CancelField('取消')
+    username = StringField('username', validators=[
+        DataRequired(message='username reqired'), Length(1, 64), Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0, 'only use a-z,A-z,0-9')])
+    password = PasswordField('password', validators=[DataRequired(message='password required'), EqualTo('password2', message='password are not same')])
+    password2 = PasswordField('confirm password', validators=[DataRequired()])
+    is_administrator = BooleanField('is admin')
+    submit = SubmitField('add')
+    cancel = CancelField('cancel')
 
     def validate_username(self, field):
         if Users.query.filter_by(username=field.data).first():
-            raise ValidationError('用户名已存在')
+            raise ValidationError('username has been used')
 
 
 class ToDoForm(FlaskForm):
-    todo_content = TextAreaField('ToDo内容')
-    cancel = SubmitField('取消')
-    submit = SubmitField('确认')
+    todo_content = TextAreaField('requirements context')
+    cancel = SubmitField('cancel')
+    submit = SubmitField('confirm')
 
 
 class ResetInfoForm(FlaskForm):
-    username = StringField('用户名', validators=[
-        DataRequired(message='用户名不能为空'), Length(1, 64), Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0, '用户名只能由字母，数字，小数点和下划线组成')])
-    old_password = PasswordField('旧密码', validators=[DataRequired(message='密码不能为空')])
-    password = PasswordField('新密码', validators=[DataRequired(message='密码不能为空'), EqualTo('password2', message='密码不一致')])
-    password2 = PasswordField('确认密码', validators=[DataRequired()])
-    submit = SubmitField('修改信息')
-    cancel = CancelField('取消')
+    username = StringField('username', validators=[
+        DataRequired(message='username required'), Length(1, 64), Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0, 'only use a-z,A-z,0-9')])
+    old_password = PasswordField('old password', validators=[DataRequired(message='password required')])
+    password = PasswordField('new password', validators=[DataRequired(message='password required'), EqualTo('password2', message='password are not same')])
+    password2 = PasswordField('confirm password', validators=[DataRequired()])
+    submit = SubmitField('update info')
+    cancel = CancelField('cancel')
 
     def validate_old_password(self, field):
         if not current_user.verify_password(field.data):
-            raise ValidationError('密码不正确')
+            raise ValidationError('password incorrect')
 
     def validate_username(self, field):
         if Users.query.filter_by(username=field.data).first():
-            raise ValidationError('用户名已存在')
+            raise ValidationError('username has been used')

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*--
 from views import tdl_client
 import sys
 

@@ -1,6 +1,6 @@
 {% import "chwtf.html" as wtf %}
 {% extends "base.html" %}
-{% block title %}user list{% endblock %}
+{% block title %}User List{% endblock %}
 {% block head %}
     {{ super() }}
     <style type="text/css">
@@ -19,7 +19,7 @@
         {% endfor %}
     </div>
     <div class="page-header">
-        <h1 style="margin-left: 15px;">all user</h1>
+        <h1 style="margin-left: 15px;">User List</h1>
     </div>
     <div style="margin-left: 15px;">
         <table style="border-spacing: 1px; border-collapse: inherit; margin-bottom: 15px;">
@@ -41,12 +41,12 @@
                 {% endif %}
             <td>{{ user.id }}</td>
             <td>{{ user.username }}</td>
-            <td>{{ user.added_time.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            <td>{{ user.added_time.strftime('%Y-%m-%d') }}</td>
             {% if user.is_administrator %}
                 <td><p align="center" style="margin: 0;">YES</p></td>
                 <td>
                     {% if user.id == 1 %}
-                        <p align="center" style="margin: 0;">superadmin</p>
+                        <p style="margin: 0;">superadmin</p>
                     {% else %}
                         <input style="border: 0" value="not admin anymore" type="submit" onclick="chPerm({{ user.id }})">
                     {% endif %}

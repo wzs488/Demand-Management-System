@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*--
 from flask import Blueprint
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
@@ -10,7 +11,7 @@ bootstrap = Bootstrap()
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'main.login'
-login_manager.login_message = '请登录账号'
+login_manager.login_message = 'pls login'
 
 from . import tdl_server
 from . import tdl_client

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*--
 from flask import Flask
 from config import config
 from views import main, db, login_manager, bootstrap
